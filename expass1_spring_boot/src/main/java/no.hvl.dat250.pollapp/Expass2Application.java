@@ -1,13 +1,13 @@
-package com.example.expass1_spring_boot;
+package no.hvl.dat250.pollapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Expass1SpringBootApplication {
+public class Expass2poleapp {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Expass1SpringBootApplication.class, args);
+		SpringApplication.run(Expass2poleapp.class, args);
 	}
 
 }
