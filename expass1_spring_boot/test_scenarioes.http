@@ -1,0 +1,24 @@
+### create new user
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "username": "Kari",
+  "email": "kari@example.no"
+}
+
+### list users
+GET http://localhost:8080/users
+
+### create another user
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "username": "Lars",
+  "email": "lars@example.no"
+}
+
+### list users again
+GET http://localhost:8080/users
+
