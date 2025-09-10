@@ -6,8 +6,9 @@
 - Added classes inside a "domain" package: [domain](https://github.com/SimenAB/DAT250_Expass_2/tree/main/expass2_spring_boot/src/main/java/no/hvl/dat250/pollapp/domain)
 - Used Lombok to save time with getters and setters
 - Implemented a [Pollmanager](https://github.com/SimenAB/DAT250_Expass_2/blob/main/expass2_spring_boot/src/main/java/no/hvl/dat250/pollapp/service/PollManager.java) class in a "service" package
-  - Added necessary functions like creating users and polls and options
-  - Wrote a http file to implement test events
+  - Added necessary functions like creating and listing users, but it is lacking some other parts that i did not get to test
+- Wrote a http file to implement test events, but only got through the user ones: [http](https://github.com/SimenAB/DAT250_Expass_2/blob/main/expass1_spring_boot/test_scenarioes.http) 
+  - Implemented [Controllers](https://github.com/SimenAB/DAT250_Expass_2/blob/main/expass1_spring_boot/src/main/java/no/hvl/dat250/pollapp/web/Controllers.java) for the ones i had time to create tests for
 
 ### What i still need to do
 - Need to be able to go through all the scenarios
