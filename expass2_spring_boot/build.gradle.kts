@@ -4,9 +4,9 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.7"
 }
 
-group = "com.example"
+group = "no.hvl.dat250"
 version = "0.0.1-SNAPSHOT"
-description = "Demo project for Spring Boot"
+description = "Expass 2"
 
 java {
 	toolchain {
@@ -22,6 +22,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    // Lombok
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
+
 }
 
 tasks.withType<Test> {

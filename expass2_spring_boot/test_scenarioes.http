@@ -1,0 +1,65 @@
+### create new user
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "username": "Kari",
+  "email": "kari@example.no"
+}
+
+### list users
+GET http://localhost:8080/users
+
+### create another user
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "username": "Lars",
+  "email": "lars@example.no"
+}
+
+### list users again
+GET http://localhost:8080/users
+
+### user 1 creates poll
+POST http://localhost:8080/polls?userId=1
+Content-Type: application/json
+
+{
+  "question": "Which pizza topping do you prefer?",
+  "validUntil": "2099-01-01T00:00:00Z"
+}
+
+### list polls
+GET http://localhost:8080/polls
+
+### add option to poll
+POST http://localhost:8080/polls/1/options
+Content-Type: application/json
+
+{ "caption": "Pepperoni", "presentationOrder": 1 }
+
+### add another option
+POST http://localhost:8080/polls/1/options
+Content-Type: application/json
+
+{ "caption": "Pineapple", "presentationOrder": 2 }
+
+### list options
+GET http://localhost:8080/polls/1/options
+
+### user 2 votes
+POST http://localhost:8080/polls/1/votes?userId=2&optionId=2
+
+### user 2 change vote
+POST http://localhost:8080/polls/1/votes?userId=2&optionId=1
+
+### list votes
+GET http://localhost:8080/votes
+
+### delete the poll
+DELETE http://localhost:8080/polls/1
+
+### list votes, empty
+GET http://localhost:8080/votes
