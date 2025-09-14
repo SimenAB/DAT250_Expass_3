@@ -22,3 +22,45 @@ Content-Type: application/json
 ### list users again
 GET http://localhost:8080/users
 
+### create poll
+POST http://localhost:8080/polls?userId=1
+Content-Type: application/json
+
+{
+  "question": "Liker du ananas på pizza",
+  "validUntil": "2025-09-20T00:00:00Z"
+}
+
+### list polls
+GET http://localhost:8080/polls
+
+### Add first option
+POST http://localhost:8080/polls/1/options
+Content-Type: application/json
+
+{ "caption": "Ja, nam", "presentationOrder": 1 }
+
+### Add second option
+POST http://localhost:8080/polls/1/options
+Content-Type: application/json
+
+{ "caption": "Nei, æsj", "presentationOrder": 2 }
+
+### 8) List options for the poll
+GET http://localhost:8080/polls/1/options
+
+### 9) User 2 votes on the poll
+# Suppose VS Code option got id=2; adjust if different
+POST http://localhost:8080/polls/1/votes?userId=2&optionId=2
+
+### 10) User 2 changes vote (to 'ja' = optionId=1)
+POST http://localhost:8080/polls/1/votes?userId=2&optionId=1
+
+### 11) List votes (global)
+GET http://localhost:8080/votes
+
+### 12) Delete the poll
+DELETE http://localhost:8080/polls/1
+
+### 13) List votes (should be empty)
+GET http://localhost:8080/votes

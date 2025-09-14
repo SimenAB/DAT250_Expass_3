@@ -84,6 +84,23 @@ public class PollManager {
         if (patch.getValidUntil() != null) p.setValidUntil(patch.getValidUntil());
         return p;
     }
+    // Options - create, list and delete
+
+    public List<VoteOption> listVoteOptions(Long pollId) {
+        Poll p = polls.get(pollId);
+        return (p == null) ? Collections.emptyList() : p.getOptions()
+    }
+
+    public VoteOption addOption (Long pollId, VoteOption voteOption) {
+        Poll p = polls.get(pollId);
+        if (p == null) return null;
+
+        voteOption.setId(optionSeq++);
+        voteOption.setPoll(p);
+        options.put(voteOption.getId(), voteOption);
+        p.getOptions().add(voteOption);
+        return voteOption;
+    }
 
     // votes
 
