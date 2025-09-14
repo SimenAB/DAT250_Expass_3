@@ -18,4 +18,3 @@ public class Poll {
     private User createdBy;
     private final List<VoteOption> options = new ArrayList<>();
 }
-
