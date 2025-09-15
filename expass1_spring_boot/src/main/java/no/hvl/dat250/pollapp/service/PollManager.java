@@ -71,6 +71,13 @@ public class PollManager {
         p.setId(pollSeq++);
         p.setCreatedBy(creator);
         if (p.getPublishedAt() == null) p.setPublishedAt(Instant.now());
+
+        if (p.getOptions() != null) {
+            for (VoteOption voteOption : p.getOptions()) {
+                if (voteOption.getId() == null) voteOption.setId(optionSeq++);
+                options.put(voteOption.getId(), voteOption);
+            }
+        }
         polls.put(p.getId(), p);
         creator.getPolls().add(p);
         return p;

@@ -14,6 +14,7 @@ public class VoteOption {
     private String caption;
     private int presentationOrder;
     private Poll poll;
+    private final List<VoteOption> options = new ArrayList<>();
     private final List<Vote> votes = new ArrayList<>();
 
     // getters/setters...

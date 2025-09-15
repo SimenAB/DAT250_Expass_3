@@ -12,7 +12,8 @@
 - 
 ### What I still need to do
 - Automate testing
-- 
+- Fully integrate frontend and backend
+- The functionality of the webpage is lacking, there are several functions that are missing
 
 
 ### Technical issues
@@ -22,5 +23,5 @@
     - manually deleted files 
     - ./gradlew clean build --no-daemon
 - Nothing updated when runnning npm dev for the first time.
-  - Added full url for 
+  - Added API base to have full URL
 
