@@ -84,11 +84,26 @@ public class PollManager {
         if (patch.getValidUntil() != null) p.setValidUntil(patch.getValidUntil());
         return p;
     }
+
+    public boolean deletePoll(Long id) {
+        Poll p = polls.remove(id);
+        if (p == null) return false;
+
+        if (p.getCreatedBy() != null) {
+            p.getCreatedBy().getPolls().remove(p);
+        }
+
+        List<Long> optIds = new ArrayList<>();
+        for (VoteOption voteOption : p.getOptions()) optIds.add(voteOption.getId());
+        for (Long oid : optIds) deleteOption(oid);
+
+        return true;
+    }
     // Options - create, list and delete
 
     public List<VoteOption> listVoteOptions(Long pollId) {
         Poll p = polls.get(pollId);
-        return (p == null) ? Collections.emptyList() : p.getOptions()
+        return (p == null) ? Collections.emptyList() : p.getOptions();
     }
 
     public VoteOption addOption (Long pollId, VoteOption voteOption) {
@@ -102,10 +117,80 @@ public class PollManager {
         return voteOption;
     }
 
-    // votes
+    public boolean deleteOption(Long optionId) {
+        VoteOption voteOption = options.remove(optionId);
+        if (voteOption == null) return false;
 
-    public List<Vote> listVotes() {
-        return new ArrayList<>(votes.values());
+        //remove link
+        if (voteOption.getPoll() != null) {
+            voteOption.getPoll().getOptions().remove(voteOption);
+        }
+
+        //delete connected votes
+        List<Long> toRemove = new ArrayList<>();
+        for (Vote vote : votes.values()) {
+            if (vote.getOption() != null && vote.getOption().getId().equals(voteOption.getId())) {
+                toRemove.add(vote.getId());
+            }
+        }
+        for (Long voteId : toRemove) votes.remove(voteId);
+        return true;
     }
+    // votes
+    public Vote createOrUpdateVote(Long pollId, Long userId, Long optionId) {
+        Poll p = polls.get(pollId);
+        User u = users.get(userId);
+        VoteOption voteOption = options.get(optionId);
+
+        if (p == null || u == null || voteOption == null) return null;
+        if (voteOption.getPoll() == null || !voteOption.getPoll().getId().equals(pollId)) return null;
+
+        //find votews
+        Vote existingVote = null;
+        for (Vote vote : votes.values()) {
+            if (vote.getVoter() != null && vote.getVoter().getId().equals(userId)) {
+                VoteOption voteOption1 = vote.getOption();
+                if (voteOption1 != null && voteOption1.getPoll() != null && voteOption1.getPoll().getId().equals(p.getId())) {
+                    existingVote = vote;
+                    break;
+                }
+            }
+
+        }
+
+        if (existingVote != null) {
+            // move to new option
+            existingVote.getOption().getVotes().remove(existingVote);
+            existingVote.setOption(voteOption);
+            voteOption.getVotes().add(existingVote);
+            existingVote.setPublishedAt(Instant.now());
+            return existingVote;
+
+        }
+
+        //create new vote
+        Vote vote = new Vote();
+        vote.setId(voteSeq++);
+        vote.setPublishedAt(Instant.now());
+        vote.setVoter(u);
+        vote.setOption(voteOption);
+        votes.put(vote.getId(), vote);
+        u.getVotes().add(vote);
+        voteOption.getVotes().add(vote);
+        return vote;
+
+    }
+
+    public List<Vote> listVotes(Long pollId) {
+        List<Vote> result = new ArrayList<>();
+        for (Vote vote : votes.values()) {
+            VoteOption voteOption = vote.getOption();
+            if (voteOption != null && voteOption.getPoll() != null && voteOption.getPoll().getId().equals(pollId)) {
+                result.add(vote);
+            }
+        }
+        return result;
+    }
+
 
 }
