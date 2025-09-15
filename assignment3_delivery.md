@@ -15,6 +15,8 @@
 - Fully integrate frontend and backend
 - The functionality of the webpage is lacking, there are several functions that are missing
 
+<img src="current.png" alt="Current webpage" width="700">
+
 
 ### Technical issues
 - Spring boot would not run
