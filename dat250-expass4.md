@@ -1,18 +1,18 @@
-<h2> Experiment Assignment 3</h2>
+<h2> Experiment Assignment 4</h2>
 
 ### The things I did
-- *Link to code*
-- *How you inspected the database tables and what tables were created, for latter; provide screenshots*
+- Added dependencies to gradle and removed spring boot starter
+- Created the polltest file and copied in test code
+- Added necessary constructors and methods 
 
 ### What I still need to do
-- *pending issues with the assignment*
+- clean up warnings
+- get the jpa annotations to work
 
 ### Technical issues
-- *Encountered during installation and use of JPA *
+- Got many errors when adding "public user in user.java"
+  - changed imports
+  - alot of trial and error to fix this
 
-Checklist:
-Added dependencies
-implementation("org.springframework.boot:spring-boot-starter-web") from build.gradle
-created PollsTest, added test code
 
 
