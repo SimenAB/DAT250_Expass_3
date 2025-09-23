@@ -13,10 +13,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 // TODO: you may have to adjust the imports to import the domain model entities
-// import no.hvl.dat250.pollapp.domain.Poll;
-// import no.hvl.dat250.pollapp.domain.User;
-// import no.hvl.dat250.pollapp.domain.VoteOption;
-// import no.hvl.dat250.pollapp.domain.Vote;
+import no.hvl.dat250.pollapp.domain.Poll;
+import no.hvl.dat250.pollapp.domain.User;
+import no.hvl.dat250.pollapp.domain.VoteOption;
+import no.hvl.dat250.pollapp.domain.Vote;
 
 
 public class PollsTest {

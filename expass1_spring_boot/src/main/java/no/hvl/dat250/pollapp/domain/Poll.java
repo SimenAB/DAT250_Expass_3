@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
 import jakarta.persistence.*;
+import org.hibernate.type.TrueFalseConverter;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -18,5 +19,18 @@ public class Poll {
     private Instant publishedAt;
     private Instant validUntil;
     private User createdBy;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+
     private final List<VoteOption> options = new ArrayList<>();
+
+    public Poll() {}
+
+    public VoteOption addVoteOption() {
+        VoteOption voteOption = new VoteOption();
+        return 
+    }
+
+
 }
