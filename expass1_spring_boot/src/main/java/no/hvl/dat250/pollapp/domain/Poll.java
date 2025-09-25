@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Poll {
 
-    @id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
