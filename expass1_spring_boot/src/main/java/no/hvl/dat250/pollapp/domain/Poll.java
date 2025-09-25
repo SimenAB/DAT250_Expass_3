@@ -1,35 +1,43 @@
 package no.hvl.dat250.pollapp.domain;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.Data;
 
+import lombok.Data;
 import jakarta.persistence.*;
-import org.hibernate.type.TrueFalseConverter;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 @Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+
 public class Poll {
+
+    @id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String question;
     private Instant publishedAt;
     private Instant validUntil;
-    private User createdBy;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    private User createdBy;
 
-    private final List<VoteOption> options = new ArrayList<>();
+    @OneToMany(mappedBy = "poll", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<VoteOption> options = new ArrayList<>();
 
     public Poll() {}
 
-    public VoteOption addVoteOption() {
-        VoteOption voteOption = new VoteOption();
-        return 
+    public VoteOption addVoteOption(String caption) {
+        VoteOption voteOpt = new VoteOption();
+        voteOpt.setPoll(this);
+        voteOpt.setCaption(caption);
+        voteOpt.setPresentationOrder(options.size());
+        options.add(voteOpt);
+        return voteOpt;
     }
 
 

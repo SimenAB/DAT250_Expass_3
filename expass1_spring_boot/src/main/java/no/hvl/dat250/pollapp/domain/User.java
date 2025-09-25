@@ -1,8 +1,5 @@
 package no.hvl.dat250.pollapp.domain;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -13,7 +10,6 @@ import java.util.List;
 @Entity
 @Table(name = "users") // test uses: select count(id) from users
 @Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User {
 
     @Id

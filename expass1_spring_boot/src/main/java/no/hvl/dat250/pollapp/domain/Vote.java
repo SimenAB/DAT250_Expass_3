@@ -1,22 +1,28 @@
 package no.hvl.dat250.pollapp.domain;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import jakarta.persistence.*;
 import java.time.Instant;
 import lombok.Data;
 
-
+@Entity
 @Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Vote {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private Instant publishedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User voter;
-    private VoteOption option;
 
-    public void setVotesOn(VoteOption option) {
-    }
+    // field name must be 'votesOn' to match the JPQL in PollsTest
+    @ManyToOne
+    @JoinColumn(name = "option_id")
+    private VoteOption votesOn;
 
-    public
+    public Vote() {}
 
 }
