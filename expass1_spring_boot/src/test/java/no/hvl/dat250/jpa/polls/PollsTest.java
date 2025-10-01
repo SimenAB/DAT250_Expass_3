@@ -56,6 +56,9 @@ public class PollsTest {
                 .property(PersistenceConfiguration.SCHEMAGEN_DATABASE_ACTION, "drop-and-create")
                 .property(PersistenceConfiguration.JDBC_USER, "sa")
                 .property(PersistenceConfiguration.JDBC_PASSWORD, "")
+                .property("hibernate.show_sql", "true")
+                .property("hibernate.format_sql", "true")
+                .property("hibernate.highlight_sql", "true")
                 .createEntityManagerFactory();
         emf.runInTransaction(em -> {
             populate(em);

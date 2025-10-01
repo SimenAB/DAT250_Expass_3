@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "users") // test uses: select count(id) from users
+@Table(name = "users")
 @Data
 public class User {
 

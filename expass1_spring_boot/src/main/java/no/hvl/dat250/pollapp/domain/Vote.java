@@ -18,7 +18,6 @@ public class Vote {
     @JoinColumn(name = "user_id")
     private User voter;
 
-    // field name must be 'votesOn' to match the JPQL in PollsTest
     @ManyToOne
     @JoinColumn(name = "option_id")
     private VoteOption votesOn;

@@ -6,9 +6,13 @@ import no.hvl.dat250.pollapp.domain.Vote;
 import no.hvl.dat250.pollapp.domain.VoteOption;
 import org.springframework.stereotype.Component;
 
+import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.*;
 
+import lombok.Data;
+@Entity
+@Data
 @Component
 public class PollManager {
 
@@ -136,7 +140,7 @@ public class PollManager {
         //delete connected votes
         List<Long> toRemove = new ArrayList<>();
         for (Vote vote : votes.values()) {
-            if (vote.getOption() != null && vote.getOption().getId().equals(voteOption.getId())) {
+            if (vote.getVotesOn() != null && vote.getVotesOn().getId().equals(voteOption.getId())) {
                 toRemove.add(vote.getId());
             }
         }
@@ -152,11 +156,11 @@ public class PollManager {
         if (p == null || u == null || voteOption == null) return null;
         if (voteOption.getPoll() == null || !voteOption.getPoll().getId().equals(pollId)) return null;
 
-        //find votews
+        //find voters
         Vote existingVote = null;
         for (Vote vote : votes.values()) {
             if (vote.getVoter() != null && vote.getVoter().getId().equals(userId)) {
-                VoteOption voteOption1 = vote.getOption();
+                VoteOption voteOption1 = vote.getVotesOn();
                 if (voteOption1 != null && voteOption1.getPoll() != null && voteOption1.getPoll().getId().equals(p.getId())) {
                     existingVote = vote;
                     break;
@@ -167,8 +171,8 @@ public class PollManager {
 
         if (existingVote != null) {
             // move to new option
-            existingVote.getOption().getVotes().remove(existingVote);
-            existingVote.setOption(voteOption);
+            existingVote.getVotesOn().getVotes().remove(existingVote);
+            existingVote.setVotesOn(voteOption);
             voteOption.getVotes().add(existingVote);
             existingVote.setPublishedAt(Instant.now());
             return existingVote;
@@ -180,7 +184,7 @@ public class PollManager {
         vote.setId(voteSeq++);
         vote.setPublishedAt(Instant.now());
         vote.setVoter(u);
-        vote.setOption(voteOption);
+        vote.setVotesOn(voteOption);
         votes.put(vote.getId(), vote);
         u.getVotes().add(vote);
         voteOption.getVotes().add(vote);
@@ -191,7 +195,7 @@ public class PollManager {
     public List<Vote> listVotes(Long pollId) {
         List<Vote> result = new ArrayList<>();
         for (Vote vote : votes.values()) {
-            VoteOption voteOption = vote.getOption();
+            VoteOption voteOption = vote.getVotesOn();
             if (voteOption != null && voteOption.getPoll() != null && voteOption.getPoll().getId().equals(pollId)) {
                 result.add(vote);
             }
