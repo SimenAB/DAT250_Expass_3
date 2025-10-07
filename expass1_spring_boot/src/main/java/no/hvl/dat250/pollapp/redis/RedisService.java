@@ -1,7 +1,10 @@
-package no.hvl.dat250.pollapp;
+package no.hvl.dat250.pollapp.redis;
 
+import org.springframework.stereotype.Service;
 import redis.clients.jedis.UnifiedJedis;
+import jakarta.annotation.PreDestroy;
 
+@Service
 public class RedisService {
     private final UnifiedJedis jedis;
 
@@ -18,6 +21,11 @@ public class RedisService {
     //get value with key
     public String getValue(String key) {
         return jedis.get(key);
+    }
+
+    @PreDestroy
+    public void destroy() {
+        jedis.close();
     }
 
 }

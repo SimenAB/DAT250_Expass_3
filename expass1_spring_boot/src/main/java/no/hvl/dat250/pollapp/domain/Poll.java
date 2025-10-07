@@ -13,6 +13,7 @@ import java.util.List;
 
 public class Poll {
 
+    public String getTitle;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -39,6 +40,5 @@ public class Poll {
         options.add(voteOpt);
         return voteOpt;
     }
-
 
 }

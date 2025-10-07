@@ -1,8 +1,7 @@
     package no.hvl.dat250.pollapp.web;
 
-    import no.hvl.dat250.pollapp.RedisService;
+    import no.hvl.dat250.pollapp.redis.RedisService;
     import no.hvl.dat250.pollapp.domain.Poll;
-    import no.hvl.dat250.pollapp.domain.User;
     import no.hvl.dat250.pollapp.domain.Vote;
     import no.hvl.dat250.pollapp.domain.VoteOption;
     import no.hvl.dat250.pollapp.service.PollManager;
@@ -17,6 +16,7 @@
     @RequestMapping("/polls")
     @CrossOrigin
     public class PollController {
+
         private final PollManager pollManager;
         private final RedisService redisService;
 
@@ -39,23 +39,33 @@
             if (created == null) {
                 return ResponseEntity.badRequest().build();
             }
-            // put in redis
-            redisService.setValue("poll:" + created.getId(), created.getTitle);
+            // Set title in redis
+            redisService.setValue("poll:" + created.getId(), created.getQuestion());
             return ResponseEntity.ok(created);
         }
 
         @GetMapping("/{pollId}")
         public ResponseEntity<Poll> getPoll(@PathVariable Long pollId) {
-            // get from redis
-            String cachedTitle
+            // get from redis if possible
+            String cachedQuestion = redisService.getValue("poll:" + pollId);
+            if (cachedQuestion != null) {
+                Poll cached = new Poll();
+                cached.setId(pollId);
+                cached.setQuestion(cachedQuestion);
+                return ResponseEntity.ok(cached);
+            }
             Poll p = pollManager.getPoll(pollId);
-            return p == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(p);
+            if (p == null) return ResponseEntity.notFound().build();
+
+            // if cacheQuestion == null -> store in Redis
+            redisService.setValue("poll:" + p.getId(), p.getQuestion());
+            return ResponseEntity.ok(p);
         }
 
         @DeleteMapping("/{pollId}")
         public ResponseEntity<Void> deletePoll(@PathVariable Long pollId) {
             boolean ok = pollManager.deletePoll(pollId);
-            return ResponseEntity.notFound().build();
+            return ok ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
 
         }
 

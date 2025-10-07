@@ -4,7 +4,8 @@
  - Added redis implementation in build.gradle
  - Created a redis_expass5 test class 
  - Added redis access class to add key-value pairs 
- - 
+ - Went through pollcontroller.java and implemented redis functionality 
+   - Set redis as the preferred method to set/get data
 
 ### What I still need to do
 - Clean up the code
