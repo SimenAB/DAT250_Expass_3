@@ -1,5 +1,6 @@
     package no.hvl.dat250.pollapp.web;
 
+    import no.hvl.dat250.pollapp.RedisService;
     import no.hvl.dat250.pollapp.domain.Poll;
     import no.hvl.dat250.pollapp.domain.User;
     import no.hvl.dat250.pollapp.domain.Vote;
@@ -15,14 +16,14 @@
     @RestController
     @RequestMapping("/polls")
     @CrossOrigin
-
     public class PollController {
         private final PollManager pollManager;
+        private final RedisService redisService;
 
-        public PollController(PollManager pollManager) {
+        public PollController(PollManager pollManager, RedisService redisService) {
             this.pollManager = pollManager;
+            this.redisService = redisService;
         }
-
         // Polls
         @GetMapping
         public List<Poll> listPolls() {
@@ -38,11 +39,15 @@
             if (created == null) {
                 return ResponseEntity.badRequest().build();
             }
+            // put in redis
+            redisService.setValue("poll:" + created.getId(), created.getTitle);
             return ResponseEntity.ok(created);
         }
 
         @GetMapping("/{pollId}")
         public ResponseEntity<Poll> getPoll(@PathVariable Long pollId) {
+            // get from redis
+            String cachedTitle
             Poll p = pollManager.getPoll(pollId);
             return p == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(p);
         }
