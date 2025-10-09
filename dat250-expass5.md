@@ -1,6 +1,7 @@
 <h2> Experiment Assignment 5</h2>
 
 ### The things I did
+ - Started a container in docker for the assignment
  - Added redis implementation in build.gradle
  - Created a redis_expass5 test class 
  - Added redis access class to add key-value pairs 
