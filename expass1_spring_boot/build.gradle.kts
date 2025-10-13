@@ -35,6 +35,9 @@ dependencies {
 
     // Jedis
     implementation("redis.clients:jedis:6.2.0")
+
+    // RabbitMQ
+    implementation("org.springframework.boot:spring-boot-starter-amqp")
 }
 
 tasks.withType<Test> {
