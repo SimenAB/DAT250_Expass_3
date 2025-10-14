@@ -5,10 +5,10 @@
 - Added RabbitMQ dependencies
 - Reloaded gradle
 - Added connection settings for rabbit
+- Added RabbitAdmin in config
 - 
 ### What I still need to do
 - Clean up the code
-- Add RabbitAdmin in config
 - Create a queue when poll is created
 - Create the subscription option 
   - Testing with making a vote and subscribing
@@ -16,4 +16,4 @@
 
 ### Technical issues
 - reoccurring issue with rebuilding gradle
-- added
+- 
