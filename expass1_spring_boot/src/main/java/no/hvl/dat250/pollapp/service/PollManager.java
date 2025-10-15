@@ -4,6 +4,8 @@ import no.hvl.dat250.pollapp.domain.Poll;
 import no.hvl.dat250.pollapp.domain.User;
 import no.hvl.dat250.pollapp.domain.Vote;
 import no.hvl.dat250.pollapp.domain.VoteOption;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
@@ -95,10 +97,17 @@ public class PollManager {
         polls.put(p.getId(), p);
         creator.getPolls().add(p);
 
+        // Create a queue for the poll
         String queueName = "poll." + p.getId();
         Queue queue = new Queue(queueName, true);
-        assert rabbitAdmin != null;
         rabbitAdmin.declareQueue(queue);
+
+        // Bind poll queue to exchange with route key pollId
+        TopicExchange exchange = new TopicExchange("pollExchange", true, false);
+        rabbitAdmin.declareExchange(exchange);
+        rabbitAdmin.declareBinding(
+                BindingBuilder.bind(queue).to(exchange).with(queueName)
+        );
 
         return p;
     }

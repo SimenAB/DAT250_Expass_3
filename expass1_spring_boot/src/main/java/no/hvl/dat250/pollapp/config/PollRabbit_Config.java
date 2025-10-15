@@ -1,6 +1,7 @@
 package no.hvl.dat250.pollapp.config;
 
 // annotation imports
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,7 +13,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 
 
-
+@EnableRabbit
 @Configuration
 public class PollRabbit_Config {
 
