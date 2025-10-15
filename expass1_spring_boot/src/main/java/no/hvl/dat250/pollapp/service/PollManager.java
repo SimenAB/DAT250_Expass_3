@@ -4,28 +4,40 @@ import no.hvl.dat250.pollapp.domain.Poll;
 import no.hvl.dat250.pollapp.domain.User;
 import no.hvl.dat250.pollapp.domain.Vote;
 import no.hvl.dat250.pollapp.domain.VoteOption;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
-import jakarta.persistence.*;
+// rabbit imports
+import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.Queue;
+
 import java.time.Instant;
 import java.util.*;
 
 import lombok.Data;
-@Entity
 @Data
 @Component
 public class PollManager {
+
+    private final AmqpAdmin rabbitAdmin;
+    private RabbitTemplate rabbitTemplate;
 
     private Map<Long, User> users = new HashMap<>();
     private Map<Long, Poll> polls = new HashMap<>();
     private Map<Long, VoteOption> options = new HashMap<>();
     private Map<Long, Vote> votes = new HashMap<>();
 
+    public PollManager(AmqpAdmin rabbitAdmin, RabbitTemplate rabbitTemplate) {
+        this.rabbitAdmin = rabbitAdmin;
+        this.rabbitTemplate = rabbitTemplate;
+    }
+
     // ids
     private long userSeq = 1;
     private long pollSeq = 1;
     private long optionSeq = 1;
     private long voteSeq = 1;
+
 
     // users
 
@@ -53,9 +65,7 @@ public class PollManager {
 
     public boolean deleteUser(Long id) {
         User u = users.remove(id);
-        if (u == null) return false;
-
-        return true;
+        return u != null;
     }
 
     // polls -  did not have time to test for this
@@ -84,6 +94,12 @@ public class PollManager {
         }
         polls.put(p.getId(), p);
         creator.getPolls().add(p);
+
+        String queueName = "poll." + p.getId();
+        Queue queue = new Queue(queueName, true);
+        assert rabbitAdmin != null;
+        rabbitAdmin.declareQueue(queue);
+
         return p;
     }
 
