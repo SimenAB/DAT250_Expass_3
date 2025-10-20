@@ -1,0 +1,9 @@
+build/
+.gradle/
+.git
+.idea/
+*.iml
+*.md
+*.png
+HELP.md
+test_scenarios.http
