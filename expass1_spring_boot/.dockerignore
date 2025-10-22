@@ -1,8 +1,15 @@
+#gradle
 build/
 .gradle/
+
+#git
 .git
+.gitignore
 .idea/
+
 *.iml
+
+#pictures and rapports
 *.md
 *.png
 HELP.md
