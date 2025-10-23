@@ -15,3 +15,5 @@
 
 ### Technical issues
 - reoccurring issue with rebuilding gradle
+- could not find Dockerfile despite being in the correct directory 
+  - ERROR: failed to build: failed to solve: failed to read dockerfile: open Dockerfile: no such file or directory
